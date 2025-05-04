@@ -1,0 +1,20 @@
+@startuml Update deposit rates MVP
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Context.puml
+
+Person(manager_back, "Менеджер бэк-офиса")
+Person(manager_call, "Менеджер собственного кол-центра")
+Person_Ext(manager_call_ext, "Менеджер партнёрского кол-центра")
+
+System(bank, "АБС банка «Стандарт»")
+System(call, "Собственный кол-центр")
+System_Ext(call_ext, "Партнёрский кол-центр")
+
+Rel_D(manager_back, bank, "Загружает XLS-файл с актуальными ставками", "")
+
+Rel_R(call, bank, "Запрос актуальных ставок", "https")
+Rel_U(manager_call, call, "Видит актуальные ставки в интерфейсе системы", "https")
+
+Rel_R(bank, call_ext, "Передача файла с актуальными ставками", "https")
+Rel_U(manager_call_ext, call_ext, "Видит актуальные ставки в интерфейсе системы", "https")
+
+@enduml
