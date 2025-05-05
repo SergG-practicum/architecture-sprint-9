@@ -14,7 +14,7 @@ Rel_D(manager_back, bank, "Загружает XLS-файл с актуальны
 Rel_R(call, bank, "Запрос актуальных ставок", "https")
 Rel_U(manager_call, call, "Видит актуальные ставки в интерфейсе системы", "https")
 
-Rel_R(bank, call_ext, "Передача файла с актуальными ставками", "https")
+Rel_R(bank, call_ext, "Передача файла с актуальными ставками", "e-mail")
 Rel_U(manager_call_ext, call_ext, "Видит актуальные ставки в интерфейсе системы", "https")
 
 @enduml

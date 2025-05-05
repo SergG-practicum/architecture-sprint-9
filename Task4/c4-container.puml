@@ -23,7 +23,7 @@ Rel_D(manager_back, abs, "Загружает XLS-файл с актуальны�
 Rel_U(importer, abs, "Запрос актуальных ставок", "https")
 Rel_L(manager_call, call_sys, "Видит актуальные ставки в интерфейсе системы", "https")
 
-Rel_R(exporter, call_ext, "Передача файла\nс актуальными ставками", "https")
+Rel_R(exporter, call_ext, "Передача файла\nс актуальными ставками", "e-mail")
 Rel_U(manager_call_ext, call_ext, "Видит актуальные ставки в интерфейсе системы", "https")
 
 Rel(importer, call_sys, "Сохранение актуальных ставок\nв системе", "https")
