@@ -1,0 +1,32 @@
+@startuml Online Bank Deposit MVP
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+Person_Ext(client, "Клиент банка")
+Person(manager1, "Менеджер бэк-офиса")
+Person(manager2, "Менеджер бэк-офиса")
+
+System_Boundary(bank, "Банк «Стандарт»") {
+    Container(online_bank_app, "Online Bank App", "ASP.NET MVC 4.5 на основе .NET Framework 4.5, MS SQL")
+    Container(queue, "Очередь заявок", "Kafka")
+    Container(abs, "Автоматизированная банковская система (АБС)", "Delphi, Oracle")
+    Container(telecom_gateway, "Шлюз телеком-оператора")
+}
+
+System_Ext(telecom_operator, "Телеком-оператор")
+
+Rel_R(client, online_bank_app, "1. Подаёт заявку на открытие депозита через интернет-банк, указав счёт и сумму\n\n2. Подтверждает заявку кодом из СМС", "https")
+
+Rel_R(online_bank_app, queue, "Сохранение\nзаявки в очередь")
+Rel(online_bank_app, abs, "Запрос актуальных ставок\nи кеширование их на сутки")
+Rel_U(abs, queue, "Получение\nзаявки\nиз очереди", "")
+
+Rel_L(manager1, abs, "Обрабатывает заявку", "")
+Rel_U(manager2, abs, "Загружает XLS-файл с актуальными ставками", "")
+
+Rel_R(telecom_gateway, telecom_operator, "Передача сообщений оператору", "https")
+Rel_L(telecom_operator, client, "Отправка сообщений клиенту в виде СМС", "sms")
+
+Rel_D(abs, telecom_gateway, "Отправка уведомления об открытии депозита")
+Rel_D(online_bank_app, telecom_gateway, "Отправка кода\nдля\nподтверждения")
+
+@enduml

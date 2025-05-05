@@ -1,0 +1,32 @@
+@startuml Update deposit rates MVP
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+Person(manager_back, "Менеджер бэк-офиса")
+Person(manager_call, "Менеджер собственного кол-центра")
+Person_Ext(manager_call_ext, "Менеджер партнёрского кол-центра")
+
+System_Boundary(bank, "АБС банка «Стандарт»") {
+    Container(abs, "Автоматизированная банковская система (АБС)", "Delphi, Oracle")
+    Container(exporter, "Сервис экспорта ставок", "Delphi, Oracle")
+}
+
+System_Boundary(call, "Собственный кол-центр") {
+    Container(call_sys, "Система кол-центра", "React.js, Java Spring Boot, PostgreSQL")
+    Container(importer, "Сервис импорта ставок", "Java Spring Boot, PostgreSQL")
+}
+
+System_Ext(call_ext, "Партнёрский кол-центр")
+
+
+Rel_D(manager_back, abs, "Загружает XLS-файл с актуальными ставками", "")
+
+Rel_U(importer, abs, "Запрос актуальных ставок", "https")
+Rel_L(manager_call, call_sys, "Видит актуальные ставки в интерфейсе системы", "https")
+
+Rel_R(exporter, call_ext, "Передача файла\nс актуальными ставками", "e-mail")
+Rel_U(manager_call_ext, call_ext, "Видит актуальные ставки в интерфейсе системы", "https")
+
+Rel(importer, call_sys, "Сохранение актуальных ставок\nв системе", "https")
+Rel_R(exporter, abs, "Запрос актуальных ставок", "https")
+
+@enduml

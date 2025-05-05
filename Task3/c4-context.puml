@@ -1,0 +1,19 @@
+@startuml Online Bank Deposit MVP
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Context.puml
+
+Person_Ext(client, "Клиент банка")
+Person(manager1, "Менеджер бэк-офиса")
+Person(manager2, "Менеджер бэк-офиса")
+
+System(bank, "Банк «Стандарт»")
+System_Ext(telecom, "Телеком-оператор")
+
+Rel_R(client, bank, "1. Подаёт заявку на открытие депозита через интернет-банк, указав счёт и сумму\n\n2. Подтверждает заявку кодом из СМС", "https")
+
+Rel_L(manager1, bank, "Обрабатывает заявку", "")
+Rel(manager2, bank, "Загружает XLS-файл с актуальными ставками", "")
+
+Rel_D(bank, telecom, "1. Отправка кода\n\n2. Отправка уведомления об открытии депозита", "https")
+Rel_L(telecom, client, "1. Отправка кода по СМС\n\n2. Отправка уведомления об открытии депозита по СМС", "sms")
+
+@enduml
